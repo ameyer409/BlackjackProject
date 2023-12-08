@@ -19,9 +19,6 @@ public class Player {
 		d.deal(hand);
 	}
 	
-//	public void stay() {
-//		
-//	}
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -34,5 +31,9 @@ public class Player {
 	
 	public boolean checkBlackjack() {
 		return hand.isBlackjack();
+	}
+	
+	public boolean checkBust() {
+		return hand.isBust();
 	}
 }

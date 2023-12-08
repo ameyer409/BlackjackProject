@@ -11,6 +11,7 @@ public class BlackjackApp {
 	private Player p;
 	private Dealer d;
 	private boolean isPlaying = true;
+	private boolean pBust;
 	private Scanner kb = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -19,22 +20,48 @@ public class BlackjackApp {
 	}
 
 	public void run() {
-		p = new Player();
-		d = new Dealer();
 		kb = new Scanner(System.in);
 
 		do {
+			p = new Player();
+			d = new Dealer();
+			pBust = false;
+
 			startGame();
-			playerTurn(kb);
-			dealerTurn();
+			if (!d.checkBlackjack() && !p.checkBlackjack()) {
+				playerTurn(kb);
+				if (!pBust) {
+					dealerTurn();
+				}
+				d.determineWinner(p);
+			}
+			keepPlaying(kb);
 		}
 		while (isPlaying);
 
-//		d.printDeck();
-//		d.cardsLeftInDeck();
-//		
-//		p.hit(d);
-//		printHands();
+	}
+
+	public void keepPlaying(Scanner kb) {
+		String answer;
+		System.out.println("Would you like to play again?");
+		System.out.println("Enter 'y' to play again or 'n' to stop");
+		try {
+			answer = kb.nextLine();
+			if (answer.equals("y")) {
+				return;
+			}
+			else if (answer.equals("n")) {
+				System.out.println("Ending program, goodbye!");
+				isPlaying = false;
+				return;
+			}
+			else {
+				throw new InputMismatchException();
+			}
+		}
+		catch (InputMismatchException e) {
+			System.out.println("invalid input, playing again");
+		}
 
 	}
 
@@ -43,11 +70,19 @@ public class BlackjackApp {
 		int handValue = d.getHandValue();
 		while (!stay) {
 			if (handValue >= 17) {
-				return;
+				System.out.println("Dealer stays!");
+				stay = true;
 			}
 			else {
+				System.out.println("Dealer hits!");
 				d.hit(d);
+				handValue = d.getHandValue();
 				printHands();
+				if (d.checkBust()) {
+					System.out.println("Dealer busts!");
+					return;
+				}
+
 			}
 		}
 	}
@@ -64,6 +99,11 @@ public class BlackjackApp {
 				case "hit":
 					p.hit(d);
 					printHands();
+					if (p.checkBust()) {
+						System.out.println("you bust!");
+						pBust = true;
+						return;
+					}
 					break;
 				case "Stay":
 				case "stay":
@@ -90,15 +130,15 @@ public class BlackjackApp {
 		printHands();
 		if (p.checkBlackjack() && d.checkBlackjack()) {
 			System.out.println("Player & Dealer have BlackJack!");
-			System.out.println("Draw!");
+			d.determineWinner(p);
 		}
 		else if (p.checkBlackjack()) {
 			System.out.println("You hit Blackjack!");
-			System.out.println("You win!");
+			d.determineWinner(p);
 		}
 		else if (d.checkBlackjack()) {
 			System.out.println("Dealer hit Blackjack!");
-			System.out.println("Dealer wins!");
+			d.determineWinner(p);
 		}
 	}
 

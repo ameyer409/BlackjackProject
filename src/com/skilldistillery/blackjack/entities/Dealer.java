@@ -9,6 +9,26 @@ public class Dealer extends Player {
 		deck.dealCard(hand);
 	}
 	
+	public void determineWinner(Player p) {
+		if(p.checkBust()) {
+			System.out.println("Dealer wins!");
+			return;
+		}
+		else if(this.checkBust()) {
+			System.out.println("You win!");
+			return;
+		}
+		if (p.getHandValue() > this.getHandValue()) {
+			System.out.println("You win!");
+		}
+		else if (p.getHandValue() < this.getHandValue()) {
+			System.out.println("Dealer wins!");
+		}
+		else {
+			System.out.println("It's a draw!");
+		}
+	}
+	
 	public void shuffleDeck() {
 		deck.shuffle();
 	}
