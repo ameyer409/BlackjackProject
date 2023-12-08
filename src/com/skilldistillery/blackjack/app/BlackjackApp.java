@@ -2,7 +2,6 @@ package com.skilldistillery.blackjack.app;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import com.skilldistillery.blackjack.entities.Dealer;
 import com.skilldistillery.blackjack.entities.Player;
 
@@ -31,7 +30,7 @@ public class BlackjackApp {
 			if (!d.checkBlackjack() && !p.checkBlackjack()) {
 				playerTurn(kb);
 				if (!pBust) {
-					dealerTurn();
+						dealerTurn();
 				}
 				d.determineWinner(p);
 			}
@@ -128,18 +127,17 @@ public class BlackjackApp {
 		d.deal(p.getHand());
 		d.deal(d.getHand());
 		printHands();
-		if (p.checkBlackjack() && d.checkBlackjack()) {
-			System.out.println("Player & Dealer have BlackJack!");
-			d.determineWinner(p);
+		
+		if (!p.checkBlackjack() && !d.checkBlackjack()) {
+			return;
 		}
-		else if (p.checkBlackjack()) {
+		if (p.checkBlackjack()) {
 			System.out.println("You hit Blackjack!");
-			d.determineWinner(p);
 		}
-		else if (d.checkBlackjack()) {
+		if (d.checkBlackjack()) {
 			System.out.println("Dealer hit Blackjack!");
-			d.determineWinner(p);
 		}
+		d.determineWinner(p);
 	}
 
 	public void printHands() {
