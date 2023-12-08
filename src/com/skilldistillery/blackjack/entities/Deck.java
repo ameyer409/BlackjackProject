@@ -47,4 +47,9 @@ public class Deck {
 	public int size() {
 		return deck.size();
 	}
+
+	@Override
+	public String toString() {
+		return "Deck [deck=" + deck + "]";
+	}
 }
