@@ -32,7 +32,19 @@ public class Deck {
 		return deck.remove(0);
 	}
 	
+	public void dealCard(Hand hand) {
+		hand.addCard(dealCard());
+	}
+	
 	public void shuffle() {
 		Collections.shuffle(deck);
+	}
+	
+	public int cardsLeftInDeck() {
+		return deck.size();
+	}
+	
+	public int size() {
+		return deck.size();
 	}
 }
