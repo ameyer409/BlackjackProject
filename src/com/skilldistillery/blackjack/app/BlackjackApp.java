@@ -29,9 +29,12 @@ public class BlackjackApp {
 			startGame();
 			if (!d.checkBlackjack() && !p.checkBlackjack()) {
 				playerTurn(kb);
+				d.showHand();
 				if (!pBust) {
-						dealerTurn();
+					printHands();
+					dealerTurn();
 				}
+				printHands();
 				d.determineWinner(p);
 			}
 			keepPlaying(kb);
@@ -76,7 +79,7 @@ public class BlackjackApp {
 				System.out.println("Dealer hits!");
 				d.hit(d);
 				handValue = d.getHandValue();
-				printHands();
+				printDealerHand();
 				if (d.checkBust()) {
 					System.out.println("Dealer busts!");
 					return;
@@ -97,17 +100,16 @@ public class BlackjackApp {
 				case "Hit":
 				case "hit":
 					p.hit(d);
-					printHands();
 					if (p.checkBust()) {
 						System.out.println("you bust!");
 						pBust = true;
 						return;
 					}
+					printPlayerHand(p);
 					break;
 				case "Stay":
 				case "stay":
 					stay = true;
-					printHands();
 					break;
 				default:
 					throw new InputMismatchException();
@@ -126,9 +128,9 @@ public class BlackjackApp {
 		d.deal(d.getHand());
 		d.deal(p.getHand());
 		d.deal(d.getHand());
-		printHands();
-		
+
 		if (!p.checkBlackjack() && !d.checkBlackjack()) {
+			printHands();
 			return;
 		}
 		if (p.checkBlackjack()) {
@@ -137,11 +139,21 @@ public class BlackjackApp {
 		if (d.checkBlackjack()) {
 			System.out.println("Dealer hit Blackjack!");
 		}
+		d.showHand();
+		printHands();
 		d.determineWinner(p);
 	}
 
 	public void printHands() {
+		printPlayerHand(p);
+		printDealerHand();
+	}
+
+	public void printPlayerHand(Player p) {
 		System.out.println(p);
+	}
+
+	public void printDealerHand() {
 		System.out.println(d);
 	}
 

@@ -24,8 +24,8 @@ public class Player {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Your hand:");
 		builder.append(hand);
-		builder.append(", hand value: ");
-		builder.append(hand.getHandValue());
+//		builder.append(", hand value: ");
+//		builder.append(hand.getHandValue());
 		return builder.toString();
 	}
 	
